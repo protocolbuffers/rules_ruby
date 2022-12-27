@@ -29,9 +29,14 @@ cc_library(
     includes = [],
 )
 
+java_binary(
+    name = "dummy_jar"
+    srcs = ["Dummy.java"],
+)
+
 filegroup(
     name = "jars",
-    srcs = [],
+    srcs = [":dummy_jar"],
 )
 
 filegroup(
@@ -80,9 +85,14 @@ cc_library(
     includes = {includes},
 )
 
+java_library(
+    name = "dummy_jar",
+    srcs = ["Dummy.java"],
+)
+
 filegroup(
     name = "jars",
-    srcs = glob({jars}),
+    srcs = {jars},
 )
 
 filegroup(
@@ -95,6 +105,13 @@ filegroup(
         ],
     ),
 )
+"""
+
+# Define a dummy java file for creating a no-op jar when JRuby isn't selected.
+_dummy_jar = """
+public class Dummy {
+    public static void main(String[] args) {}
+}
 """
 
 _bundle_bzl = """
@@ -255,6 +272,8 @@ def _ruby_runtime_impl(ctx):
         if not interpreter_path or not interpreter_path.exists:
             fail("Installation of ruby version %s failed")
 
+    ctx.file("Dummy.java", _dummy_jar)
+
     if interpreter_path and interpreter_path.exists:
         ruby = ruby_repository_context(ctx, interpreter_path)
         installed = _install_ruby(ctx, ruby)
@@ -263,7 +282,7 @@ def _ruby_runtime_impl(ctx):
         toolchain = _toolchain.format(
             includes = repr(installed.includedirs),
             hdrs = repr(["%s/**/*.h" % path for path in installed.includedirs]),
-            jars = repr(["**/lib/jruby.jar"] if ruby_impl == "jruby" else []),
+            jars = "glob([\"**/lib/jruby.jar\"])" if ruby_impl == "jruby" else [":dummy_jar"],
             static_library = repr(installed.static_library),
             shared_library = repr(installed.shared_library),
             rules_ruby_workspace = RULES_RUBY_WORKSPACE_NAME,

@@ -31,7 +31,6 @@ def _ruby_jars_alias_impl(ctx):
     for jar in infos[0].files.to_list():
         infos.append(JavaInfo(jar, jar))
 
-    #fail(infos)
     return infos
 
 ruby_jars_alias = rule(
