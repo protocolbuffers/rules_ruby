@@ -10,8 +10,8 @@ load(
 load(
     "@rules_ruby//ruby/private:runtime_alias.bzl",
     _ruby_headers_alias = "ruby_headers_alias",
-    _ruby_jars_alias = "ruby_jars_alias",
     _ruby_interpreter_alias = "ruby_interpreter_alias",
+    _ruby_jars_alias = "ruby_jars_alias",
     _ruby_runtime_alias = "ruby_runtime_alias",
 )
 

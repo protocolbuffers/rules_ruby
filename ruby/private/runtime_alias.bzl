@@ -26,10 +26,11 @@ def _ruby_jars_alias_impl(ctx):
         DefaultInfo(
             files = target.files,
             runfiles = ctx.runfiles(transitive_files = target.files),
-        )
+        ),
     ]
     for jar in infos[0].files.to_list():
         infos.append(JavaInfo(jar, jar))
+
     #fail(infos)
     return infos
 
