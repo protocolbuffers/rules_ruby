@@ -19,6 +19,30 @@ ruby_runtime_alias = rule(
     toolchains = [TOOLCHAIN_TYPE_NAME],
 )
 
+def _ruby_jars_alias_impl(ctx):
+    runtime = ctx.attr.runtime[RubyRuntimeToolchainInfo]
+    target = runtime.jars
+    infos = [
+        DefaultInfo(
+            files = target.files,
+            runfiles = ctx.runfiles(transitive_files = target.files),
+        )
+    ]
+    for jar in infos[0].files.to_list():
+        infos.append(JavaInfo(jar, jar))
+    #fail(infos)
+    return infos
+
+ruby_jars_alias = rule(
+    implementation = _ruby_jars_alias_impl,
+    attrs = {
+        "runtime": attr.label(
+            doc = "The runtime alias to use.",
+            mandatory = True,
+        ),
+    },
+)
+
 def _ruby_headers_alias_impl(ctx):
     runtime = ctx.attr.runtime[RubyRuntimeToolchainInfo]
     target = runtime.headers

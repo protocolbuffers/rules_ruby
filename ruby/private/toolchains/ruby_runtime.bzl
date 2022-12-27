@@ -30,6 +30,11 @@ cc_library(
 )
 
 filegroup(
+    name = "jars",
+    srcs = [],
+)
+
+filegroup(
     name = "runtime",
     srcs = [],
 )
@@ -46,6 +51,7 @@ ruby_toolchain(
     interpreter = "//:ruby_bin",
     rules_ruby_workspace = "{rules_ruby_workspace}",
     runtime = "//:runtime",
+    jars = "//:jars",
     headers = "//:headers",
     target_settings = [
         "{rules_ruby_workspace}//ruby/runtime:{setting}"
@@ -72,6 +78,11 @@ cc_library(
     name = "headers",
     hdrs = glob({hdrs}),
     includes = {includes},
+)
+
+filegroup(
+    name = "jars",
+    srcs = glob({jars}),
 )
 
 filegroup(
@@ -252,6 +263,7 @@ def _ruby_runtime_impl(ctx):
         toolchain = _toolchain.format(
             includes = repr(installed.includedirs),
             hdrs = repr(["%s/**/*.h" % path for path in installed.includedirs]),
+            jars = repr(["**/lib/jruby.jar"] if ruby_impl == "jruby" else []),
             static_library = repr(installed.static_library),
             shared_library = repr(installed.shared_library),
             rules_ruby_workspace = RULES_RUBY_WORKSPACE_NAME,
