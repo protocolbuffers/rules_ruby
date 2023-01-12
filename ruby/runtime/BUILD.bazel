@@ -31,6 +31,12 @@ _ruby_jars_alias(
     runtime = ":runtime",
 )
 
+java_binary(
+    name = "jruby_binary",
+    main_class = "org.jruby.Main",
+    runtime_deps = [":jars"],
+)
+
 _ruby_headers_alias(
     name = "headers",
     runtime = ":runtime",

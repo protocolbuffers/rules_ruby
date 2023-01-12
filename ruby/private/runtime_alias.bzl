@@ -1,4 +1,5 @@
 load("@bazel_skylib//rules:common_settings.bzl", "BuildSettingInfo")
+load("@rules_java//java:defs.bzl", "java_binary")
 load(":constants.bzl", "TOOLCHAIN_TYPE_NAME")
 load(":providers.bzl", "RubyRuntimeToolchainInfo")
 
