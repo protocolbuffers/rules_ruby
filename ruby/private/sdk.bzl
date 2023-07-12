@@ -25,7 +25,7 @@ def register_ruby_runtime(name, version = None):
 
     Args:
         name: the name of the generated Bazel repository
-        version: a version identifier (e.g. system, ruby-2.5, jruby-9.2)
+        version: a version identifier (e.g. system, ruby-2.5, jruby-9.4)
     """
     if not version:
         version = name

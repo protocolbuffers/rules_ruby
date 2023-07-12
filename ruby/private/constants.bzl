@@ -177,7 +177,8 @@ SUPPORTED_VERSIONS = [
     "ruby-3.1.0",
     "ruby-3.1.1",
     "jruby-9.2.21.0",  # Corresponded to 2.5.8
-    "jruby-9.3.6.0",  # Corresponds to 2.6.8
+    "jruby-9.3.10.0",  # Corresponds to 2.6.8
+    "jruby-9.4.3.0",  # Corresponds to 3.1.4
 ]
 
 def get_supported_version(version):

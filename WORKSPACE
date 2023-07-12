@@ -31,9 +31,9 @@ ruby_runtime(
 register_toolchains("@ruby3//:toolchain")
 
 # Register a versioned ruby with its default name.
-ruby_runtime("jruby-9.2")
+ruby_runtime("jruby-9.4")
 
-register_toolchains("@jruby-9.2//:toolchain")
+register_toolchains("@jruby-9.4//:toolchain")
 
 local_repository(
     name = "rules_ruby_ruby_tests_testdata_another_workspace",
