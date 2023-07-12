@@ -134,9 +134,9 @@ def ruby_bundle(**kwargs):
 
 def _install_ruby_version(ctx, version):
     ctx.download_and_extract(
-        url = "https://github.com/rbenv/ruby-build/archive/refs/tags/v20220825.tar.gz",
-        sha256 = "55d9363a27486e4ec9623985d7764c5cf8e59cafe58afcf666e81fa148dea2f0",
-        stripPrefix = "ruby-build-20220825",
+        url = "https://github.com/rbenv/ruby-build/archive/refs/tags/v20230710.tar.gz",
+        sha256 = "8c9cf458d461a9b6b63d44e4b5b246304168f665fd47adea1733ab6a7cd0f077",
+        stripPrefix = "ruby-build-20230710",
     )
 
     install_path = "./build"
