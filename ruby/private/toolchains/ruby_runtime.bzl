@@ -74,14 +74,14 @@ sh_binary(
 
 cc_import(
     name = "libruby",
-    hdrs = glob({hdrs}),
+    hdrs = glob({hdrs}, allow_empty = True),
     shared_library = {shared_library},
     static_library = {static_library},
 )
 
 cc_library(
     name = "headers",
-    hdrs = glob({hdrs}),
+    hdrs = glob({hdrs}, allow_empty = True),
     includes = {includes},
 )
 
