@@ -68,7 +68,9 @@ ALL_GEMS
 #
 # Library path differs across implementations as `lib/ruby` on MRI and `lib/jruby` on JRuby.
 GEM_PATH = ->(ruby_version, gem_name, gem_version) do
-  Dir.glob("lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}/#{ruby_version}/gems/#{gem_name}-#{gem_version}*").first
+  glob = Dir.glob("lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}/#{ruby_version}/gems/#{gem_name}-#{gem_version}*").first
+  alt_glob = Dir.glob("lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}/#{ruby_version}/bundler/gems/#{gem_name}-*").first
+  glob || alt_glob
 end
 
 # For ordinary gems, this path is like 'lib/ruby/3.0.0/specifications/rspec-3.10.0.gemspec'.
@@ -81,7 +83,9 @@ end
 #
 # Library path differs across implementations as `lib/ruby` on MRI and `lib/jruby` on JRuby.
 SPEC_PATH = ->(ruby_version, gem_name, gem_version) do
-  Dir.glob("lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}/#{ruby_version}/specifications/#{gem_name}-#{gem_version}*.gemspec").first
+  glob = Dir.glob("lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}/#{ruby_version}/specifications/#{gem_name}-#{gem_version}*.gemspec").first
+  alt_glob = Dir.glob("lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}/#{ruby_version}/bundler/gems/#{gem_name}-*/**/*.gemspec").first
+  glob || alt_glob
 end
 
 HERE = File.absolute_path '.'
@@ -193,7 +197,18 @@ class BundleBuildFileGenerator
     # This attribute returns 0 as the third minor version number, which happens to be
     # what Ruby uses in the PATH to gems, eg. ruby 2.6.5 would have a folder called
     # ruby/2.6.0/gems for all minor versions of 2.6.*
-    @ruby_version ||= (RUBY_VERSION.split('.')[0..1] << 0).join('.')
+    @ruby_version ||= begin
+        version_string = (RUBY_VERSION.split('.')[0..1] << 0).join('.')
+        if File.exist?("lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}/#{version_string}")
+            version_string
+        else
+            if File.exist?("lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}/#{version_string}+0")
+                version_string + "+0"
+            else
+                raise "Cannot find directory named #{version_string} within lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}"
+            end
+        end
+    end
   end
 
   def generate!

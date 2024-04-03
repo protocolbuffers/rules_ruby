@@ -120,7 +120,7 @@ load("@system_ruby_custom//:bundle.bzl", "ruby_bundle")
 
 ruby_bundle(
     name = "bundle",
-    bundler_version = "2.1.4",
+    bundler_version = "2.4.22",
     excludes = {
         "mini_portile": ["test/**/*"],
     },
