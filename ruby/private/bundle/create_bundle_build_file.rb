@@ -68,8 +68,8 @@ ALL_GEMS
 #
 # Library path differs across implementations as `lib/ruby` on MRI and `lib/jruby` on JRuby.
 GEM_PATH = ->(ruby_version, gem_name, gem_version) do
-  glob = Dir.glob("lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}/#{ruby_version}/gems/#{gem_name}-#{gem_version}*").first
-  alt_glob = Dir.glob("lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}/#{ruby_version}/bundler/gems/#{gem_name}-*").first
+  glob = Dir.glob("lib/#{RbConfig::CONFIG['RUBY_BASE_NAME']}/#{ruby_version}/gems/#{gem_name}-#{gem_version}*").first
+  alt_glob = Dir.glob("lib/#{RbConfig::CONFIG['RUBY_BASE_NAME']}/#{ruby_version}/bundler/gems/#{gem_name}-*").first
   glob || alt_glob
 end
 
@@ -83,8 +83,8 @@ end
 #
 # Library path differs across implementations as `lib/ruby` on MRI and `lib/jruby` on JRuby.
 SPEC_PATH = ->(ruby_version, gem_name, gem_version) do
-  glob = Dir.glob("lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}/#{ruby_version}/specifications/#{gem_name}-#{gem_version}*.gemspec").first
-  alt_glob = Dir.glob("lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}/#{ruby_version}/bundler/gems/#{gem_name}-*/**/*.gemspec").first
+  glob = Dir.glob("lib/#{RbConfig::CONFIG['RUBY_BASE_NAME']}/#{ruby_version}/specifications/#{gem_name}-#{gem_version}*.gemspec").first
+  alt_glob = Dir.glob("lib/#{RbConfig::CONFIG['RUBY_BASE_NAME']}/#{ruby_version}/bundler/gems/#{gem_name}-*/**/*.gemspec").first
   glob || alt_glob
 end
 
@@ -199,13 +199,13 @@ class BundleBuildFileGenerator
     # ruby/2.6.0/gems for all minor versions of 2.6.*
     @ruby_version ||= begin
         version_string = (RUBY_VERSION.split('.')[0..1] << 0).join('.')
-        if File.exist?("lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}/#{version_string}")
+        if File.exist?("lib/#{RbConfig::CONFIG['RUBY_BASE_NAME']}/#{version_string}")
             version_string
         else
-            if File.exist?("lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}/#{version_string}+0")
+            if File.exist?("lib/#{RbConfig::CONFIG['RUBY_BASE_NAME']}/#{version_string}+0")
                 version_string + "+0"
             else
-                raise "Cannot find directory named #{version_string} within lib/#{RbConfig::CONFIG['RUBY_INSTALL_NAME']}"
+                raise "Cannot find directory named #{version_string} within lib/#{RbConfig::CONFIG['RUBY_BASE_NAME']}"
             end
         end
     end
