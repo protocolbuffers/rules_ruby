@@ -99,11 +99,11 @@ GEM
       timeout
     net-smtp (0.5.0)
       net-protocol
-    nio4r (2.7.3)
+    nio4r (2.7.5)
     nokogiri (1.16.7)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    puma (5.6.9)
+    puma (7.2.1)
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (2.2.9)
@@ -169,7 +169,7 @@ DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
   listen (>= 3.0.5, < 3.2)
-  puma (~> 5.6)
+  puma (~> 7.2)
   rails (~> 6.1.7)
   spring
   spring-watcher-listen (~> 2.0.0)
