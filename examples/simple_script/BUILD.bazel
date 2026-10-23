@@ -40,6 +40,7 @@ ruby_test(
     deps = [
         "@bundle//:awesome_print",
         "@bundle//:bin",
+        "@bundle//:colored2",
         "@bundle//:rspec",
         "@bundle//:rspec-its",
     ],
@@ -65,6 +66,7 @@ ruby_rspec(
     ]),
     deps = [
         "@bundle//:awesome_print",
+        "@bundle//:colored2",
     ],
 )
 
